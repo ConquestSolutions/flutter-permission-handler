@@ -15,11 +15,12 @@
 // #import "LocationPermissionStrategy.h"
 // #import "MediaLibraryPermissionStrategy.h"
 #import "PermissionStrategy.h"
+// #import "PhonePermissionStrategy.h"
 #import "PhotoPermissionStrategy.h"
 // #import "SensorPermissionStrategy.h"
 // #import "SpeechPermissionStrategy.h"
 #import "UnknownPermissionStrategy.h"
-#import "Enums.h"
+#import "PermissionHandlerEnums.h"
 #import "Codec.h"
 
 typedef void (^PermissionRequestCompletion)(NSDictionary *permissionRequestResults);

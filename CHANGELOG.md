@@ -1,3 +1,22 @@
+## 3.1.0
+
+* Support service status inquiry for phone permission on iOS & Android.
+
+## 3.0.2
+
+* Fixed bug when rapidly requesting permissions (#23);
+* Rename Enums.h to PermissionHandlerEnums.h to prevent conflicts with geolocator (#104);
+* Update the Android permission request code to prevent conflicts with geolocator (#111);
+* Update Gradle infrastructure.
+
+## 3.0.1
+
+* Mark the Swift pod as static
+
+## 3.0.0
+
+* Converted the iOS version from Swift to Objective-C, reducing the size of the final binary considerably.
+
 ## 2.2.0
 
 * Added new method `checkServiceStatus` to allow users to check if the location services (on Android and iOS) and motion services (iOS only) are enabled;

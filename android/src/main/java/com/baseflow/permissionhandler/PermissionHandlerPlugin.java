@@ -7,9 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -33,7 +36,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 public class PermissionHandlerPlugin implements MethodCallHandler {
   private static final String LOG_TAG = "permissions_handler";
-  private static final int PERMISSION_CODE = 25;
+  private static final int PERMISSION_CODE = 24;
 
   //PERMISSION_GROUP
   private static final int PERMISSION_GROUP_CALENDAR = 0;
@@ -202,6 +205,7 @@ public class PermissionHandlerPlugin implements MethodCallHandler {
               "ERROR_ALREADY_REQUESTING_PERMISSIONS",
               "A request for permissions is already running, please wait for it to finish before doing another request (note that you can request multiple permissions at the same time).",
               null);
+          return;
         }
 
         mResult = result;
@@ -278,6 +282,34 @@ public class PermissionHandlerPlugin implements MethodCallHandler {
 
     if (permission == PERMISSION_GROUP_LOCATION || permission == PERMISSION_GROUP_LOCATION_ALWAYS || permission == PERMISSION_GROUP_LOCATION_WHEN_IN_USE) {
       return isLocationServiceEnabled(context) ? SERVICE_STATUS_ENABLED : SERVICE_STATUS_DISABLED;
+    }
+
+    if (permission == PERMISSION_GROUP_PHONE) {
+      PackageManager pm = context.getPackageManager();
+      if (!pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+        return SERVICE_STATUS_NOT_APPLICABLE;
+      }
+
+      TelephonyManager telephonyManager = (TelephonyManager) context
+          .getSystemService(Context.TELEPHONY_SERVICE);
+
+      if (telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
+        return SERVICE_STATUS_NOT_APPLICABLE;
+      }
+
+      Intent callIntent = new Intent(Intent.ACTION_CALL);
+      callIntent.setData(Uri.parse("tel:123123"));
+      List<ResolveInfo> callAppsList = pm.queryIntentActivities(callIntent, 0);
+
+      if (callAppsList.isEmpty()) {
+        return SERVICE_STATUS_NOT_APPLICABLE;
+      }
+
+      if (telephonyManager.getSimState() != TelephonyManager.SIM_STATE_READY) {
+        return SERVICE_STATUS_DISABLED;
+      }
+
+      return SERVICE_STATUS_ENABLED;
     }
 
     return SERVICE_STATUS_NOT_APPLICABLE;
