@@ -54,11 +54,18 @@
     #define PERMISSION_PHOTOS 1
 #endif
 
+// ios: [PermissionGroupLocation, PermissionGroupLocationWhenInUse]
+// Info.plist: [NSLocationUsageDescription, NSLocationWhenInUseUsageDescription]
+// dart: [PermissionGroup.location, PermissionGroup.locationWhenInUse]
+#ifndef PERMISSION_LOCATION
+    #define PERMISSION_LOCATION 1
+#endif
+
 // ios: [PermissionGroupLocation, PermissionGroupLocationAlways, PermissionGroupLocationWhenInUse]
 // Info.plist: [NSLocationUsageDescription, NSLocationAlwaysAndWhenInUseUsageDescription, NSLocationWhenInUseUsageDescription]
 // dart: [PermissionGroup.location, PermissionGroup.locationAlways, PermissionGroup.locationWhenInUse]
-#ifndef PERMISSION_LOCATION
-    #define PERMISSION_LOCATION 1
+#ifndef PERMISSION_LOCATION_ALWAYS
+    #define PERMISSION_LOCATION_ALWAYS 1
 #endif
 
 // ios: PermissionGroupNotification
