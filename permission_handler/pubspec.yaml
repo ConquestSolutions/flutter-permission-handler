@@ -11,6 +11,8 @@ flutter:
         pluginClass: PermissionHandlerPlugin
       ios:
         pluginClass: PermissionHandlerPlugin
+      macos:
+        pluginClass: PermissionHandlerPlugin
 
 dependencies:
   flutter:
